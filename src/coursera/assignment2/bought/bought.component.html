@@ -1,0 +1,8 @@
+<!-- Already Bought List -->
+<div class="col-md-6">
+    <h2>Already Bought:</h2>
+    <ul>
+        <li *ngFor="let item of items">Bought {{ item.quantity }} {{ item.name }}</li>
+    </ul>
+    <div *ngIf="!items.length" class="emptyMessage">Nothing bought yet.</div>
+</div>

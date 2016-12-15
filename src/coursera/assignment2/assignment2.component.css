@@ -1,0 +1,18 @@
+fa-assignment2 .emptyMessage {
+   font-weight: bold;
+   color: red;
+   font-size: 1.2em;
+}
+
+fa-assignment2 li {
+   margin-bottom: 7px;
+   font-size: 1.2em;
+}
+
+fa-assignment2 li > button {
+   margin-left: 6px;
+}
+
+fa-assignment2 button > span {
+   color: green;
+}

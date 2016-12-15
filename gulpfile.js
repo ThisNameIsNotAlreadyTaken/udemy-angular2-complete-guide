@@ -7,6 +7,7 @@ const cache = require('gulp-cached');
 const through2 = require('through2');
 const gutil = require('gulp-util');
 const clean = require("gulp-clean");
+const filter = require('gulp-filter');
 const browserify = require('browserify');
 const source = require("vinyl-source-stream");
 const buffer = require("vinyl-buffer");
@@ -19,7 +20,7 @@ const watchify = require('watchify');
 const ng2TemplateParser = require('gulp-inline-ng2-template/parser');
 
 gulp.task("clean", function () {
-    return gulp.src(['./dist/*'], { read: false }).pipe(clean({ force: true }));
+    return gulp.src(['./dist/*'], { read: false }).pipe(filter(['**', '!dist/web.config'])).pipe(clean({ force: true }));
 });
 
 gulp.task("html:copy", function () {
