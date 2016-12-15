@@ -1,1 +1,18 @@
-<h1>Not implemented yet!</h1>
+<h1>Narrow Down Your Chinese Menu Choice</h1>
+
+<div class="form-group">
+    <input type="text" placeholder="search term" class="form-control" [(ngModel)]="searchTerm">
+</div>
+<div class="form-group narrow-button">
+    <button class="btn btn-primary" (click)="searchItems()">Narrow It Down For Me!</button>
+</div>
+
+<fa-assignment3-loader [visible]="isLoading" ></fa-assignment3-loader>
+
+<div class="clearfix"></div>
+
+<div class="alert alert-danger" role="alert" *ngIf="isNothingFound">
+    Nothing found
+</div>
+
+<fa-found-items [items]="foundItems" (itemRemoveRequested)="removeItem($event)"></fa-found-items>
