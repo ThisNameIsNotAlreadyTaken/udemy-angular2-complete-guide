@@ -66979,20 +66979,94 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
+var recipe_service_1 = require('../recipe.service');
+var forms_1 = require('@angular/forms');
 var RecipeEditComponent = (function () {
-    function RecipeEditComponent() {
+    function RecipeEditComponent(route, recipeService, formBuilder, router) {
+        this.route = route;
+        this.recipeService = recipeService;
+        this.formBuilder = formBuilder;
+        this.router = router;
+        this.isNew = true;
     }
+    RecipeEditComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.subscription = this.route.params.subscribe(function (params) {
+            if (params.hasOwnProperty('id')) {
+                _this.isNew = false;
+                _this.recipeIndex = +params['id'];
+                _this.recipe = _this.recipeService.getRecipe(_this.recipeIndex);
+            }
+            else {
+                _this.isNew = true;
+                _this.recipe = null;
+            }
+            _this.initForm();
+        });
+    };
+    RecipeEditComponent.prototype.onSubmit = function () {
+        var newRecipe = this.recipeForm.value;
+        if (this.isNew) {
+            this.recipeService.addRecipe(newRecipe);
+        }
+        else {
+            this.recipeService.editRecipe(this.recipe, newRecipe);
+        }
+        this.navigateBack();
+    };
+    RecipeEditComponent.prototype.onCancel = function () {
+        this.navigateBack();
+    };
+    RecipeEditComponent.prototype.onAddItem = function (name, amount) {
+        this.recipeForm.controls['ingredients'].push(new forms_1.FormGroup({
+            name: new forms_1.FormControl(name, forms_1.Validators.required),
+            amount: new forms_1.FormControl(amount, [forms_1.Validators.required, forms_1.Validators.pattern("\\d+")])
+        }));
+    };
+    RecipeEditComponent.prototype.onRemoveItem = function (index) {
+        this.recipeForm.controls['ingredients'].removeAt(index);
+    };
+    RecipeEditComponent.prototype.ngOnDestroy = function () {
+        this.subscription.unsubscribe();
+    };
+    RecipeEditComponent.prototype.navigateBack = function () {
+        this.router.navigate(['udemy/recipes']);
+    };
+    RecipeEditComponent.prototype.initForm = function () {
+        var recipeName = '';
+        var recipeImageUrl = '';
+        var recipeContent = '';
+        var recipeIngredients = new forms_1.FormArray([]);
+        if (!this.isNew) {
+            for (var i = 0; i < this.recipe.ingredients.length; i++) {
+                recipeIngredients.push(new forms_1.FormGroup({
+                    name: new forms_1.FormControl(this.recipe.ingredients[i].name, forms_1.Validators.required),
+                    amount: new forms_1.FormControl(this.recipe.ingredients[i].amount, [forms_1.Validators.required, forms_1.Validators.pattern("\\d+")])
+                }));
+            }
+            recipeName = this.recipe.name;
+            recipeImageUrl = this.recipe.imagePath;
+            recipeContent = this.recipe.description;
+        }
+        this.recipeForm = this.formBuilder.group({
+            name: [recipeName, forms_1.Validators.required],
+            imagePath: [recipeImageUrl, forms_1.Validators.required],
+            description: [recipeContent, forms_1.Validators.required],
+            ingredients: recipeIngredients
+        });
+    };
     RecipeEditComponent = __decorate([
         core_1.Component({
             selector: 'rb-recipe-edit',
-            template: "\n              <p>\n                recipe-edit works!\n              </p>\n            "
+            template: "\n              <div class=\"row\">\n                <div class=\"col-xs-12\">\n                  <form [formGroup]=\"recipeForm\" (ngSubmit)=\"onSubmit()\">\n                    <div class=\"row\">\n                      <div class=\"col-xs-12\">\n                        <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!recipeForm.valid\">Save</button>\n                        <a class=\"btn btn-danger\" (click)=\"onCancel()\">Cancel</a>\n                      </div>\n                    </div>\n                    <div class=\"row\">\n                      <div class=\"col-xs-12\">\n                        <div class=\"form-group\">\n                          <label for=\"name\">Title</label>\n                          <input type=\"text\" id=\"name\" class=\"form-control\" formControlName=\"name\">\n                        </div>\n                      </div>\n                    </div>\n                    <div class=\"row\">\n                      <div class=\"col-xs-12\">\n                        <div class=\"form-group\">\n                          <label for=\"image-url\">Image Url</label>\n                          <input type=\"text\" id=\"image-url\" class=\"form-control\" formControlName=\"imagePath\" #imageUrl>\n                        </div>\n                      </div>\n                    </div>\n                    <div class=\"row\">\n                      <div class=\"col-xs-12\">\n                        <div class=\"img\">\n                          <img [src]=\"imageUrl.value\">\n                        </div>\n                      </div>\n                    </div>\n                    <div class=\"row\">\n                      <div class=\"col-xs-12\">\n                        <div class=\"form-group\">\n                          <label for=\"content\">Content</label>\n                          <textarea type=\"text\" id=\"content\" rows=\"6\" class=\"form-control\" formControlName=\"description\"></textarea>\n                        </div>\n                      </div>\n                    </div>\n                    <div class=\"row\">\n                      <div class=\"col-xs-12\">\n                        <ul class=\"list-group\" formArrayName=\"ingredients\">\n                          <div class=\"row\" *ngFor=\"let ingredient of recipeForm.controls['ingredients'].controls; let i = index;\">\n                            <div formGroupName=\"{{i}}\">\n                              <div class=\"col-sm-5\">\n                                <input type=\"text\" class=\"form-control\" formControlName=\"name\">\n                              </div>\n                              <div class=\"col-sm-5\">\n                                <input type=\"text\" class=\"form-control\" formControlName=\"amount\">\n                              </div>\n                              <div class=\"col-sm-2\">\n                                <button class=\"btn btn-danger\" (click)=\"onRemoveItem(i)\">X</button>\n                              </div>\n                            </div>\n                            <br><br>\n                          </div>\n                        </ul>\n                      </div>\n                    </div>\n                  </form>\n                </div>\n              </div>\n              <hr>\n              <div class=\"row\">\n                <div class=\"col-xs-12\">\n                  <div class=\"form-group row\">\n                    <div class=\"col-md-5\"><input type=\"text\" class=\"form-control\" #itemName></div>\n                    <div class=\"col-md-5\"><input type=\"text\" class=\"form-control\" #itemAmount></div>\n                    <div class=\"col-md-2\">\n                      <button type=\"button\" class=\"btn btn-primary\" (click)=\"onAddItem(itemName.value, itemAmount.value)\">+</button>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            "
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute, recipe_service_1.RecipeService, forms_1.FormBuilder, router_1.Router])
     ], RecipeEditComponent);
     return RecipeEditComponent;
 }());
 exports.RecipeEditComponent = RecipeEditComponent;
-},{"@angular/core":3}],89:[function(require,module,exports){
+},{"../recipe.service":91,"@angular/core":3,"@angular/forms":4,"@angular/router":7}],89:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -67079,6 +67153,12 @@ var RecipeService = (function () {
     };
     RecipeService.prototype.deleteRecipe = function (recipe) {
         this.recipes.splice(this.recipes.indexOf(recipe), 1);
+    };
+    RecipeService.prototype.addRecipe = function (recipe) {
+        this.recipes.push(recipe);
+    };
+    RecipeService.prototype.editRecipe = function (oldRecipe, newRecipe) {
+        this.recipes[this.recipes.indexOf(oldRecipe)] = newRecipe;
     };
     return RecipeService;
 }());
@@ -67248,20 +67328,61 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var ingredient_1 = require('../ingredients/ingredient');
+var shopping_list_service_1 = require('./shopping-list.service');
 var ShoppingListAddComponent = (function () {
-    function ShoppingListAddComponent() {
+    function ShoppingListAddComponent(shoppingListService) {
+        this.shoppingListService = shoppingListService;
+        this.cleared = new core_1.EventEmitter();
+        this.isAdd = true;
     }
+    ShoppingListAddComponent.prototype.ngOnChanges = function (changes) {
+        if (changes.item.currentValue === null) {
+            this.isAdd = true;
+            this.item = { name: null, amount: null };
+        }
+        else {
+            this.isAdd = false;
+        }
+    };
+    ShoppingListAddComponent.prototype.onSubmit = function (ingredient) {
+        var newIngredient = new ingredient_1.Ingredient(ingredient.name, ingredient.amount);
+        if (!this.isAdd) {
+            this.shoppingListService.editItem(this.item, newIngredient);
+            this.onClear();
+        }
+        else {
+            this.item = newIngredient;
+            this.shoppingListService.addItem(this.item);
+        }
+    };
+    ShoppingListAddComponent.prototype.onDelete = function () {
+        this.shoppingListService.deleteItem(this.item);
+        this.onClear();
+    };
+    ShoppingListAddComponent.prototype.onClear = function () {
+        this.isAdd = true;
+        this.cleared.emit(null);
+    };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', ingredient_1.Ingredient)
+    ], ShoppingListAddComponent.prototype, "item", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], ShoppingListAddComponent.prototype, "cleared", void 0);
     ShoppingListAddComponent = __decorate([
         core_1.Component({
             selector: 'rb-shopping-list-add',
-            template: "\n              <div class=\"row\">\n                  <div class=\"col-xs-12\">\n                      <form id=\"shopping-list-add\">\n                          <div class=\"row\">\n                              <div class=\"col-sm-5 form-group\">\n                                  <label for=\"item-name\">Name</label>\n                                  <input type=\"text\" id=\"item-name\" required class=\"form-control\">\n                              </div>\n\n                              <div class=\"col-sm-2 form-group\">\n                                  <label for=\"item-amount\">Amount</label>\n                                  <input type=\"text\" id=\"item-amount\" required class=\"form-control\">\n                              </div>\n                          </div>\n                          <div class=\"row\">\n                              <div class=\"col-xs-12\">\n                                  <button class=\"btn btn-success\" type=\"submit\">Add</button>\n                                  <button class=\"btn btn-danger\" type=\"button\">Delete Item</button>\n                                  <button class=\"btn btn-primary\" type=\"button\">Clear</button>\n                              </div>\n                          </div>\n                      </form>\n                  </div>\n              </div>\n            "
+            template: "\n              <div class=\"row\">\n                  <div class=\"col-xs-12\">\n                      <form id=\"shopping-list-add\" (ngSubmit)=\"onSubmit(f.value)\" #f=\"ngForm\">\n                          <div class=\"row\">\n                              <div class=\"col-sm-5 form-group\">\n                                  <label for=\"item-name\">Name</label>\n                                  <input type=\"text\" id=\"item-name\" required class=\"form-control\" [ngModel]=\"item.name\" name=\"name\">\n                              </div>\n                              <div class=\"col-sm-2 form-group\">\n                                  <label for=\"item-amount\">Amount</label>\n                                  <input type=\"text\" id=\"item-amount\" required class=\"form-control\" [ngModel]=\"item.amount\" name=\"amount\">\n                              </div>\n                          </div>\n                          <div class=\"row\">\n                              <div class=\"col-xs-12\">\n                                  <button class=\"btn btn-success\" type=\"submit\" *ngIf=\"isAdd\" [disabled]=\"!f.valid\">Add</button>\n                                  <button class=\"btn btn-success\" type=\"submit\" *ngIf=\"!isAdd\" [disabled]=\"!f.valid\">Save</button>\n                                  <button class=\"btn btn-danger\" type=\"button\" *ngIf=\"!isAdd\" (click)=\"onDelete()\">Delete Item</button>\n                                  <button class=\"btn btn-primary\" type=\"button\" *ngIf=\"!isAdd\" (click)=\"onClear()\">Clear</button>\n                              </div>\n                          </div>\n                      </form>\n                  </div>\n              </div>\n            "
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [shopping_list_service_1.ShoppingListService])
     ], ShoppingListAddComponent);
     return ShoppingListAddComponent;
 }());
 exports.ShoppingListAddComponent = ShoppingListAddComponent;
-},{"@angular/core":3}],99:[function(require,module,exports){
+},{"../ingredients/ingredient":85,"./shopping-list.service":100,"@angular/core":3}],99:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -67278,14 +67399,21 @@ var ShoppingListComponent = (function () {
     function ShoppingListComponent(shoppingListService) {
         this.shoppingListService = shoppingListService;
         this.items = [];
+        this.selectedItem = null;
     }
     ShoppingListComponent.prototype.ngOnInit = function () {
         this.items = this.shoppingListService.getItems();
     };
+    ShoppingListComponent.prototype.onSelectItem = function (item) {
+        this.selectedItem = item;
+    };
+    ShoppingListComponent.prototype.onCleared = function () {
+        this.selectedItem = null;
+    };
     ShoppingListComponent = __decorate([
         core_1.Component({
             selector: 'rb-shopping-list',
-            template: "\n              <div class=\"row\">\n                  <div class=\"col-xs-10\">\n                      <rb-shopping-list-add></rb-shopping-list-add>\n                      <hr>\n                      <ul class=\"list-group\">\n                          <a class=\"list-group-item\" style=\"cursor: pointer\" *ngFor=\"let item of items\">{{item.name}} ({{item.amount}})</a>\n                      </ul>\n                  </div>\n              </div>\n            "
+            template: "\n              <div class=\"row\">\n                  <div class=\"col-xs-10\">\n                      <rb-shopping-list-add [item]=\"selectedItem\" (cleared)=\"onCleared()\"></rb-shopping-list-add>\n                      <hr>\n                      <ul class=\"list-group\">\n                          <a class=\"list-group-item\" style=\"cursor: pointer\" *ngFor=\"let item of items\" (click)=\"onSelectItem(item)\">{{item.name}} ({{item.amount}})</a>\n                      </ul>\n                  </div>\n              </div>\n            "
         }), 
         __metadata('design:paramtypes', [shopping_list_service_1.ShoppingListService])
     ], ShoppingListComponent);
@@ -67303,6 +67431,15 @@ var ShoppingListService = (function () {
     };
     ShoppingListService.prototype.addItems = function (items) {
         Array.prototype.push.apply(this.items, items);
+    };
+    ShoppingListService.prototype.addItem = function (item) {
+        this.items.push(item);
+    };
+    ShoppingListService.prototype.editItem = function (oldItem, newItem) {
+        this.items[this.items.indexOf(oldItem)] = newItem;
+    };
+    ShoppingListService.prototype.deleteItem = function (item) {
+        this.items.splice(this.items.indexOf(item), 1);
     };
     return ShoppingListService;
 }());
@@ -67322,6 +67459,7 @@ var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
 var router_1 = require("@angular/router");
+var forms_2 = require('@angular/forms');
 var recipe_book_component_1 = require("./recipe-book.component");
 var header_component_1 = require("./shared/header.component");
 var recipes_component_1 = require("./recipes/recipes.component");
@@ -67339,7 +67477,7 @@ var UdemyModule = (function () {
     }
     UdemyModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, router_1.RouterModule],
+            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, router_1.RouterModule, forms_2.ReactiveFormsModule],
             declarations: [
                 recipe_book_component_1.RecipeBookAppComponent,
                 header_component_1.HeaderComponent,
