@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule  } from "@angular/router";
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpModule  } from "@angular/http";
 
 import { RecipeBookAppComponent } from "./recipe-book.component";
 import { HeaderComponent } from "./shared/header.component";
@@ -22,7 +23,7 @@ import { DropdownDirective } from "./shared/dropdown.directive";
 import { ShoppingListService } from './shopping/shopping-list.service';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, RouterModule, ReactiveFormsModule],
+  imports: [BrowserModule, FormsModule, RouterModule, ReactiveFormsModule, HttpModule],
   declarations: [
     RecipeBookAppComponent,
     HeaderComponent,

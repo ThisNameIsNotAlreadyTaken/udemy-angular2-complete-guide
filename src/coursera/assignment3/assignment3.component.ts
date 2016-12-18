@@ -32,15 +32,15 @@ export class Assignment3Component {
         this.isLoading = true;
 
         const self = this;
-        this.menuSearchService.getMatchedMenuItems(this.searchTerm)
-            .then(function (foundItems: any[]) {
+
+        this.menuSearchService.getMatchedMenuItems(this.searchTerm).subscribe(
+            (foundItems: any[]) => {
                 self.foundItems = foundItems;
                 self.isNothingFound = !self.foundItems.length;
-                self.isLoading = false;
-            }).catch(function (error) {
-                self.isLoading = false;
-                console.log(error);
-            });
+            },
+            error => console.log(error),
+            () => self.isLoading = false
+        );
     }
 
     removeItem(index: number) {
