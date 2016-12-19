@@ -1,0 +1,7 @@
+<ul class="nav nav-sidebar">
+    <li *ngFor="let item of items" routerLinkActive="active">
+        <a style="cursor: pointer" [routerLink]="[item.short_name]">
+			{{ item.name }}
+		</a>
+    </li>
+</ul>

@@ -82034,7 +82034,6 @@ var MenuSearchService = (function () {
         return this.http.get('https://davids-restaurant.herokuapp.com/menu_items.json')
             .map(function (response) { return response.json().menu_items; })
             .map(function (items) { return items.filter(function (item) { return item.description.toLowerCase().indexOf(searchTerm) !== -1; }); });
-        // .filter((item: any) => item.description.toLowerCase().indexOf(searchTerm) !== -1);
     };
     ;
     MenuSearchService = __decorate([
@@ -82062,8 +82061,7 @@ var Assignment4Component = (function () {
     Assignment4Component = __decorate([
         core_1.Component({
             selector: 'fa-assignment4',
-            template: "\n              <h1>Not implemented yet!</h1>\n            ",
-            styles: ["\n\n            "]
+            template: "\n              <fa-assignment4-loader></fa-assignment4-loader>\n              <fa-assignment4-header></fa-assignment4-header>\n              <div class=\"container\">\n                  <router-outlet></router-outlet>\n              </div>\n            "
         }), 
         __metadata('design:paramtypes', [])
     ], Assignment4Component);
@@ -82084,23 +82082,344 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
+var router_1 = require('@angular/router');
+var http_1 = require('@angular/http');
+var spinner_component_1 = require('./spinner/spinner.component');
+var header_component_1 = require('./header/header.component');
+var categories_component_1 = require('./menu/categories.component');
+var categories_list_component_1 = require('./menu/categories-list.component');
+var items_list_component_1 = require('./menu/items-list.component');
+var start_component_1 = require('./start/start.component');
+var data_service_1 = require('./service/data.service');
+var categories_resolve_1 = require('./service/categories.resolve');
+var items_resolve_1 = require('./service/items.resolve');
 var assignment4_component_1 = require('./assignment4.component');
 var Assignment4Module = (function () {
     function Assignment4Module() {
     }
     Assignment4Module = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule],
-            declarations: [assignment4_component_1.Assignment4Component],
+            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, router_1.RouterModule, http_1.HttpModule],
+            declarations: [assignment4_component_1.Assignment4Component, spinner_component_1.SpinnerComponent, header_component_1.HeaderComponent, categories_component_1.CategoriesComponent, categories_list_component_1.CategoriesListComponent, items_list_component_1.ItemsListComponent, start_component_1.StartComponent],
             bootstrap: [assignment4_component_1.Assignment4Component],
-            exports: [assignment4_component_1.Assignment4Component]
+            exports: [assignment4_component_1.Assignment4Component],
+            providers: [data_service_1.DataService, categories_resolve_1.CategoriesResolve, items_resolve_1.ItemsResolve]
         }), 
         __metadata('design:paramtypes', [])
     ], Assignment4Module);
     return Assignment4Module;
 }());
 exports.Assignment4Module = Assignment4Module;
-},{"./assignment4.component":364,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7}],366:[function(require,module,exports){
+},{"./assignment4.component":364,"./header/header.component":367,"./menu/categories-list.component":368,"./menu/categories.component":369,"./menu/items-list.component":371,"./service/categories.resolve":372,"./service/data.service":373,"./service/items.resolve":374,"./spinner/spinner.component":375,"./start/start.component":376,"@angular/core":3,"@angular/forms":4,"@angular/http":5,"@angular/platform-browser":7,"@angular/router":8}],366:[function(require,module,exports){
+"use strict";
+var start_component_1 = require("./start/start.component");
+var categories_component_1 = require("./menu/categories.component");
+var categories_resolve_1 = require("./service/categories.resolve");
+var categories_routing_1 = require("./menu/categories.routing");
+exports.ASSIGNMENT4_ROUTES = [
+    { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+    { path: 'welcome', component: start_component_1.StartComponent },
+    { path: 'categories', component: categories_component_1.CategoriesComponent, resolve: { categories: categories_resolve_1.CategoriesResolve }, children: categories_routing_1.ASSIGNMENT4_MENU_ROUTES }
+];
+},{"./menu/categories.component":369,"./menu/categories.routing":370,"./service/categories.resolve":372,"./start/start.component":376}],367:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require("@angular/core");
+var HeaderComponent = (function () {
+    function HeaderComponent() {
+    }
+    HeaderComponent = __decorate([
+        core_1.Component({
+            selector: 'fa-assignment4-header',
+            template: "\n              <nav class=\"navbar navbar-inverse\">\n                  <div class=\"container\">\n                      <div class=\"navbar-header\">\n                          <span class=\"navbar-brand\">Module 4 solution</span>\n                      </div>\n                      <div id=\"navbar\" class=\"collapse navbar-collapse\">\n                          <ul class=\"nav navbar-nav\">\n                              <li routerLinkActive=\"active\">\n                                  <a [routerLink]=\"['welcome']\">Home</a>\n                              </li>\n                              <li routerLinkActive=\"active\">\n                                  <a [routerLink]=\"['categories']\">Categories</a>\n                              </li>\n                          </ul>\n                      </div>\n                  </div>\n              </nav>\n            ",
+            styles: ["\n              .nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {\n                  color: #fff;\n                  background-color: #428bca;\n              }   \n\n              .navbar-brand {\n                color: #9d9d9d !important;\n              }\n\n              .navbar {\n                  margin-bottom: 0;\n              }\n            "]
+        }), 
+        __metadata('design:paramtypes', [])
+    ], HeaderComponent);
+    return HeaderComponent;
+}());
+exports.HeaderComponent = HeaderComponent;
+},{"@angular/core":3}],368:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require("@angular/core");
+var CategoriesListComponent = (function () {
+    function CategoriesListComponent() {
+        this.items = [];
+    }
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Array)
+    ], CategoriesListComponent.prototype, "items", void 0);
+    CategoriesListComponent = __decorate([
+        core_1.Component({
+            selector: 'fa-assignment4-categories-list',
+            template: "\n              <ul class=\"nav nav-sidebar\">\n                  <li *ngFor=\"let item of items\" routerLinkActive=\"active\">\n                      <a style=\"cursor: pointer\" [routerLink]=\"[item.short_name]\">\n                        {{ item.name }}\n                    </a>\n                  </li>\n              </ul>\n            ",
+            styles: ["\n              .nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {\n                  color: #fff;\n                  background-color: #428bca;\n              }   \n            "]
+        }), 
+        __metadata('design:paramtypes', [])
+    ], CategoriesListComponent);
+    return CategoriesListComponent;
+}());
+exports.CategoriesListComponent = CategoriesListComponent;
+},{"@angular/core":3}],369:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var CategoriesComponent = (function () {
+    function CategoriesComponent(route) {
+        this.route = route;
+    }
+    CategoriesComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.subscription = this.route.data.subscribe(function (data) { return _this.categories = data.categories; });
+    };
+    CategoriesComponent.prototype.ngOnDestroy = function () {
+        this.subscription.unsubscribe();
+    };
+    CategoriesComponent = __decorate([
+        core_1.Component({
+            selector: 'fa-assignment4-categories',
+            template: "\n              <div class=\"row\">\n                  <div class=\"col-sm-3 col-md-3 sidebar\">\n                      <fa-assignment4-categories-list [items]=\"categories\"></fa-assignment4-categories-list>\n                  </div>\n                  <div class=\"col-sm-9 col-md-9 main\">\n                      <router-outlet></router-outlet>\n                  </div>\n              </div>\n            ",
+            styles: ["\n              .sidebar {\n                max-height: 100%;\n                z-index: 1000;\n                overflow-x: hidden;\n                overflow-y: auto;\n                background-color: #f5f5f5;\n                border-right: 1px solid #eee;\n              }\n            "]
+        }), 
+        __metadata('design:paramtypes', [router_1.ActivatedRoute])
+    ], CategoriesComponent);
+    return CategoriesComponent;
+}());
+exports.CategoriesComponent = CategoriesComponent;
+},{"@angular/core":3,"@angular/router":8}],370:[function(require,module,exports){
+"use strict";
+var items_list_component_1 = require("./items-list.component");
+var items_resolve_1 = require("../service/items.resolve");
+exports.ASSIGNMENT4_MENU_ROUTES = [
+    {
+        path: ':id', component: items_list_component_1.ItemsListComponent, resolve: { itemsData: items_resolve_1.ItemsResolve }
+    }
+];
+},{"../service/items.resolve":374,"./items-list.component":371}],371:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var ItemsListComponent = (function () {
+    function ItemsListComponent(route) {
+        this.route = route;
+        this.items = [];
+    }
+    ItemsListComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.subscription = this.route.data.subscribe(function (data) {
+            _this.category = data.itemsData.category;
+            _this.items = data.itemsData.menu_items;
+        });
+    };
+    ItemsListComponent.prototype.ngOnDestroy = function () {
+        this.subscription.unsubscribe();
+    };
+    ItemsListComponent = __decorate([
+        core_1.Component({
+            selector: 'fa-assignment4-items-list',
+            template: "\n              <h1 class=\"page-header\">{{ category.name }}</h1>\n              <span class=\"text-muted\">{{ category.special_instructions }}</span>\n              <div class=\"table-responsive\">\n                  <table class=\"table table-striped\">\n                      <thead>\n                          <tr>\n                              <th>Name</th>\n                              <th>Price</th>\n                              <th>Description</th>\n                          </tr>\n                      </thead>\n                      <tbody>\n                          <tr *ngFor=\"let item of items\">\n                              <td>{{ item.name }}</td>\n                              <td>{{ item.price_large }}</td>\n                              <td>{{ item.description }}</td>\n                          </tr>\n                      </tbody>\n                  </table>\n              </div>\n            "
+        }), 
+        __metadata('design:paramtypes', [router_1.ActivatedRoute])
+    ], ItemsListComponent);
+    return ItemsListComponent;
+}());
+exports.ItemsListComponent = ItemsListComponent;
+},{"@angular/core":3,"@angular/router":8}],372:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var data_service_1 = require('./data.service');
+var CategoriesResolve = (function () {
+    function CategoriesResolve(dataService) {
+        this.dataService = dataService;
+    }
+    CategoriesResolve.prototype.resolve = function (route, state) {
+        return this.dataService.getAllCategories();
+    };
+    CategoriesResolve = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [data_service_1.DataService])
+    ], CategoriesResolve);
+    return CategoriesResolve;
+}());
+exports.CategoriesResolve = CategoriesResolve;
+},{"./data.service":373,"@angular/core":3}],373:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
+var DataService = (function () {
+    function DataService(http) {
+        this.http = http;
+    }
+    DataService.prototype.getAllCategories = function () {
+        return this.http.get(DataService.ApiBasePath + '/categories.json').map(function (response) { return response.json(); });
+    };
+    DataService.prototype.getItemsForCategory = function (categoryShortName) {
+        var params = new http_1.URLSearchParams();
+        params.set('category', categoryShortName);
+        return this.http.get(DataService.ApiBasePath + '/menu_items.json', { search: params }).map(function (response) { return response.json(); });
+    };
+    DataService.ApiBasePath = 'https://davids-restaurant.herokuapp.com';
+    DataService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [http_1.Http])
+    ], DataService);
+    return DataService;
+}());
+exports.DataService = DataService;
+},{"@angular/core":3,"@angular/http":5}],374:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var data_service_1 = require('./data.service');
+var ItemsResolve = (function () {
+    function ItemsResolve(dataService) {
+        this.dataService = dataService;
+    }
+    ItemsResolve.prototype.resolve = function (route, state) {
+        return this.dataService.getItemsForCategory(route.params['id']);
+    };
+    ItemsResolve = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [data_service_1.DataService])
+    ], ItemsResolve);
+    return ItemsResolve;
+}());
+exports.ItemsResolve = ItemsResolve;
+},{"./data.service":373,"@angular/core":3}],375:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var SpinnerComponent = (function () {
+    function SpinnerComponent(router) {
+        this.router = router;
+        this.visible = false;
+    }
+    SpinnerComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.subscription = this.router.events.subscribe(function (event) {
+            if (event instanceof router_1.NavigationStart) {
+                _this.visible = true;
+            }
+            if (event instanceof router_1.NavigationEnd) {
+                _this.visible = false;
+            }
+            if (event instanceof router_1.NavigationError) {
+                _this.visible = false;
+            }
+        });
+    };
+    SpinnerComponent.prototype.ngOnDestroy = function () {
+        this.subscription.unsubscribe();
+    };
+    SpinnerComponent = __decorate([
+        core_1.Component({
+            selector: 'fa-assignment4-loader',
+            template: "\n              <div class=\"loader-wrapper\" *ngIf=\"visible\">\n                  <div id=\"loader\"></div>\n              </div>\n            ",
+            styles: ["\n              .loader-wrapper {\n                  width: 70%;\n                  height: 100%;\n                  position: fixed;\n                  z-index: 100000;\n                 /* background-color: white; */\n              }\n\n              #loader {\n                  position: absolute;\n                 /*  left: 50%;\n                  top: 50%;\n                  z-index: 1; */\n                  left: 40%;\n                  top: 25%;\n                  width: 150px;\n                  height: 150px;\n                 /* margin: -75px 0 0 -75px; */\n                  border: 16px solid #f3f3f3;\n                  border-radius: 50%;\n                  border-top: 16px solid #3498db;\n                  width: 120px;\n                  height: 120px;\n                  -webkit-animation: spin 2s linear infinite;\n                  animation: spin 2s linear infinite;\n                }\n\n                @-webkit-keyframes spin {\n                  0% { -webkit-transform: rotate(0deg); }\n                  100% { -webkit-transform: rotate(360deg); }\n                }\n\n                @keyframes spin {\n                  0% { transform: rotate(0deg); }\n                  100% { transform: rotate(360deg); }\n                }\n\n                .animate-bottom {\n                  position: relative;\n                  -webkit-animation-name: animatebottom;\n                  -webkit-animation-duration: 1s;\n                  animation-name: animatebottom;\n                  animation-duration: 1s\n                }\n\n                @-webkit-keyframes animatebottom {\n                  from { bottom:-100px; opacity:0 }\n                  to { bottom:0px; opacity:1 }\n                }\n\n                @keyframes animatebottom {\n                  from{ bottom:-100px; opacity:0 }\n                  to{ bottom:0; opacity:1 }\n                }\n            "]
+        }), 
+        __metadata('design:paramtypes', [router_1.Router])
+    ], SpinnerComponent);
+    return SpinnerComponent;
+}());
+exports.SpinnerComponent = SpinnerComponent;
+},{"@angular/core":3,"@angular/router":8}],376:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require("@angular/core");
+var StartComponent = (function () {
+    function StartComponent() {
+    }
+    StartComponent = __decorate([
+        core_1.Component({
+            selector: 'fa-assignment4-start',
+            template: "\n              <div class=\"starter-template\">\n                <h1>Welcome!</h1>\n                <p class=\"lead\">You can open the category page <a [routerLink]=\"['../categories']\">here</a><br> or through the navigation bar above.</p>\n              </div>\n            ",
+            styles: ["\n              .starter-template {\n                padding: 40px 15px;\n                text-align: center;\n              }\n            "]
+        }), 
+        __metadata('design:paramtypes', [])
+    ], StartComponent);
+    return StartComponent;
+}());
+exports.StartComponent = StartComponent;
+},{"@angular/core":3}],377:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82126,7 +82445,7 @@ var Assignment5Component = (function () {
     return Assignment5Component;
 }());
 exports.Assignment5Component = Assignment5Component;
-},{"@angular/core":3}],367:[function(require,module,exports){
+},{"@angular/core":3}],378:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82156,7 +82475,7 @@ var Assignment5Module = (function () {
     return Assignment5Module;
 }());
 exports.Assignment5Module = Assignment5Module;
-},{"./assignment5.component":366,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7}],368:[function(require,module,exports){
+},{"./assignment5.component":377,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7}],379:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82181,7 +82500,7 @@ var CourseraMenuComponent = (function () {
     return CourseraMenuComponent;
 }());
 exports.CourseraMenuComponent = CourseraMenuComponent;
-},{"@angular/core":3}],369:[function(require,module,exports){
+},{"@angular/core":3}],380:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82206,7 +82525,7 @@ var CourseraComponent = (function () {
     return CourseraComponent;
 }());
 exports.CourseraComponent = CourseraComponent;
-},{"@angular/core":3}],370:[function(require,module,exports){
+},{"@angular/core":3}],381:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82243,22 +82562,23 @@ var CourseraModule = (function () {
     return CourseraModule;
 }());
 exports.CourseraModule = CourseraModule;
-},{"./assignment1/assignment1.module":353,"./assignment2/assignment2.module":355,"./assignment3/assignment3.module":360,"./assignment4/assignment4.module":365,"./assignment5/assignment5.module":367,"./coursera-menu.component":368,"./coursera.component":369,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7,"@angular/router":8}],371:[function(require,module,exports){
+},{"./assignment1/assignment1.module":353,"./assignment2/assignment2.module":355,"./assignment3/assignment3.module":360,"./assignment4/assignment4.module":365,"./assignment5/assignment5.module":378,"./coursera-menu.component":379,"./coursera.component":380,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7,"@angular/router":8}],382:[function(require,module,exports){
 "use strict";
 var assignment1_component_1 = require('./assignment1/assignment1.component');
 var assignment2_component_1 = require('./assignment2/assignment2.component');
 var assignment3_component_1 = require('./assignment3/assignment3.component');
 var assignment4_component_1 = require('./assignment4/assignment4.component');
 var assignment5_component_1 = require('./assignment5/assignment5.component');
+var assignment4_routing_1 = require('./assignment4/assignment4.routing');
 exports.COURSERA_ROUTES = [
     { path: '', redirectTo: 'assignment1', pathMatch: 'full' },
     { path: 'assignment1', component: assignment1_component_1.Assignment1Component },
     { path: 'assignment2', component: assignment2_component_1.Assignment2Component },
     { path: 'assignment3', component: assignment3_component_1.Assignment3Component },
-    { path: 'assignment4', component: assignment4_component_1.Assignment4Component },
+    { path: 'assignment4', component: assignment4_component_1.Assignment4Component, children: assignment4_routing_1.ASSIGNMENT4_ROUTES },
     { path: 'assignment5', component: assignment5_component_1.Assignment5Component }
 ];
-},{"./assignment1/assignment1.component":352,"./assignment2/assignment2.component":354,"./assignment3/assignment3.component":359,"./assignment4/assignment4.component":364,"./assignment5/assignment5.component":366}],372:[function(require,module,exports){
+},{"./assignment1/assignment1.component":352,"./assignment2/assignment2.component":354,"./assignment3/assignment3.component":359,"./assignment4/assignment4.component":364,"./assignment4/assignment4.routing":366,"./assignment5/assignment5.component":377}],383:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82284,7 +82604,7 @@ var MainMenuComponent = (function () {
     return MainMenuComponent;
 }());
 exports.MainMenuComponent = MainMenuComponent;
-},{"@angular/core":3}],373:[function(require,module,exports){
+},{"@angular/core":3}],384:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82309,7 +82629,7 @@ var MainComponent = (function () {
     return MainComponent;
 }());
 exports.MainComponent = MainComponent;
-},{"@angular/core":3}],374:[function(require,module,exports){
+},{"@angular/core":3}],385:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82342,7 +82662,7 @@ var MainModule = (function () {
     return MainModule;
 }());
 exports.MainModule = MainModule;
-},{"./coursera/coursera.module":370,"./main-menu.component":372,"./main.component":373,"./main.routing":375,"./udemy/udemy.module":393,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7}],375:[function(require,module,exports){
+},{"./coursera/coursera.module":381,"./main-menu.component":383,"./main.component":384,"./main.routing":386,"./udemy/udemy.module":404,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7}],386:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82381,7 +82701,7 @@ var AppRoutingModule = (function () {
     return AppRoutingModule;
 }());
 exports.AppRoutingModule = AppRoutingModule;
-},{"./coursera/coursera.component":369,"./coursera/coursera.routing":371,"./main-menu.component":372,"./udemy/recipe-book.component":378,"./udemy/udemy.routing":394,"@angular/common":1,"@angular/core":3,"@angular/router":8}],376:[function(require,module,exports){
+},{"./coursera/coursera.component":380,"./coursera/coursera.routing":382,"./main-menu.component":383,"./udemy/recipe-book.component":389,"./udemy/udemy.routing":405,"@angular/common":1,"@angular/core":3,"@angular/router":8}],387:[function(require,module,exports){
 "use strict";
 require('reflect-metadata');
 require('zone.js');
@@ -82389,7 +82709,7 @@ var platform_browser_dynamic_1 = require('@angular/platform-browser-dynamic');
 var main_module_1 = require('./main.module');
 var platform = platform_browser_dynamic_1.platformBrowserDynamic();
 platform.bootstrapModule(main_module_1.MainModule);
-},{"./main.module":374,"@angular/platform-browser-dynamic":6,"reflect-metadata":10,"zone.js":351}],377:[function(require,module,exports){
+},{"./main.module":385,"@angular/platform-browser-dynamic":6,"reflect-metadata":10,"zone.js":351}],388:[function(require,module,exports){
 "use strict";
 var Ingredient = (function () {
     function Ingredient(name, amount) {
@@ -82399,7 +82719,7 @@ var Ingredient = (function () {
     return Ingredient;
 }());
 exports.Ingredient = Ingredient;
-},{}],378:[function(require,module,exports){
+},{}],389:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82426,7 +82746,7 @@ var RecipeBookAppComponent = (function () {
     return RecipeBookAppComponent;
 }());
 exports.RecipeBookAppComponent = RecipeBookAppComponent;
-},{"./recipes/recipe.service":383,"@angular/core":3}],379:[function(require,module,exports){
+},{"./recipes/recipe.service":394,"@angular/core":3}],390:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82478,7 +82798,7 @@ var RecipeDetailComponent = (function () {
     return RecipeDetailComponent;
 }());
 exports.RecipeDetailComponent = RecipeDetailComponent;
-},{"../../shopping/shopping-list.service":392,"../recipe.service":383,"@angular/core":3,"@angular/router":8}],380:[function(require,module,exports){
+},{"../../shopping/shopping-list.service":403,"../recipe.service":394,"@angular/core":3,"@angular/router":8}],391:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82579,7 +82899,7 @@ var RecipeEditComponent = (function () {
     return RecipeEditComponent;
 }());
 exports.RecipeEditComponent = RecipeEditComponent;
-},{"../recipe.service":383,"@angular/core":3,"@angular/forms":4,"@angular/router":8}],381:[function(require,module,exports){
+},{"../recipe.service":394,"@angular/core":3,"@angular/forms":4,"@angular/router":8}],392:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82613,7 +82933,7 @@ var RecipeItemComponent = (function () {
     return RecipeItemComponent;
 }());
 exports.RecipeItemComponent = RecipeItemComponent;
-},{"../recipe":384,"@angular/core":3}],382:[function(require,module,exports){
+},{"../recipe":395,"@angular/core":3}],393:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82646,7 +82966,7 @@ var RecipeListComponent = (function () {
     return RecipeListComponent;
 }());
 exports.RecipeListComponent = RecipeListComponent;
-},{"../recipe.service":383,"@angular/core":3}],383:[function(require,module,exports){
+},{"../recipe.service":394,"@angular/core":3}],394:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82712,7 +83032,7 @@ var RecipeService = (function () {
     return RecipeService;
 }());
 exports.RecipeService = RecipeService;
-},{"../ingredients/ingredient":377,"./recipe":384,"@angular/core":3,"@angular/http":5,"rxjs/Rx":19}],384:[function(require,module,exports){
+},{"../ingredients/ingredient":388,"./recipe":395,"@angular/core":3,"@angular/http":5,"rxjs/Rx":19}],395:[function(require,module,exports){
 "use strict";
 var Recipe = (function () {
     function Recipe(name, description, imagePath, ingredients) {
@@ -82724,7 +83044,7 @@ var Recipe = (function () {
     return Recipe;
 }());
 exports.Recipe = Recipe;
-},{}],385:[function(require,module,exports){
+},{}],396:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82750,7 +83070,7 @@ var RecipeStartComponent = (function () {
     return RecipeStartComponent;
 }());
 exports.RecipeStartComponent = RecipeStartComponent;
-},{"@angular/core":3}],386:[function(require,module,exports){
+},{"@angular/core":3}],397:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82775,7 +83095,7 @@ var RecipesComponent = (function () {
     return RecipesComponent;
 }());
 exports.RecipesComponent = RecipesComponent;
-},{"@angular/core":3}],387:[function(require,module,exports){
+},{"@angular/core":3}],398:[function(require,module,exports){
 "use strict";
 var recipes_start_component_1 = require("./recipes-start.component");
 var recipe_detail_component_1 = require("./recipe-detail/recipe-detail.component");
@@ -82786,7 +83106,7 @@ exports.RECIPE_ROUTES = [
     { path: ':id', component: recipe_detail_component_1.RecipeDetailComponent },
     { path: ':id/edit', component: recipe_edit_component_1.RecipeEditComponent }
 ];
-},{"./recipe-detail/recipe-detail.component":379,"./recipe-edit/recipe-edit.component":380,"./recipes-start.component":385}],388:[function(require,module,exports){
+},{"./recipe-detail/recipe-detail.component":390,"./recipe-edit/recipe-edit.component":391,"./recipes-start.component":396}],399:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82840,7 +83160,7 @@ var DropdownDirective = (function () {
     return DropdownDirective;
 }());
 exports.DropdownDirective = DropdownDirective;
-},{"@angular/core":3}],389:[function(require,module,exports){
+},{"@angular/core":3}],400:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82873,7 +83193,7 @@ var HeaderComponent = (function () {
     return HeaderComponent;
 }());
 exports.HeaderComponent = HeaderComponent;
-},{"../recipes/recipe.service":383,"@angular/core":3}],390:[function(require,module,exports){
+},{"../recipes/recipe.service":394,"@angular/core":3}],401:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82939,7 +83259,7 @@ var ShoppingListAddComponent = (function () {
     return ShoppingListAddComponent;
 }());
 exports.ShoppingListAddComponent = ShoppingListAddComponent;
-},{"../ingredients/ingredient":377,"./shopping-list.service":392,"@angular/core":3}],391:[function(require,module,exports){
+},{"../ingredients/ingredient":388,"./shopping-list.service":403,"@angular/core":3}],402:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82977,7 +83297,7 @@ var ShoppingListComponent = (function () {
     return ShoppingListComponent;
 }());
 exports.ShoppingListComponent = ShoppingListComponent;
-},{"./shopping-list.service":392,"@angular/core":3}],392:[function(require,module,exports){
+},{"./shopping-list.service":403,"@angular/core":3}],403:[function(require,module,exports){
 "use strict";
 var ShoppingListService = (function () {
     function ShoppingListService() {
@@ -83001,7 +83321,7 @@ var ShoppingListService = (function () {
     return ShoppingListService;
 }());
 exports.ShoppingListService = ShoppingListService;
-},{}],393:[function(require,module,exports){
+},{}],404:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -83057,7 +83377,7 @@ var UdemyModule = (function () {
     return UdemyModule;
 }());
 exports.UdemyModule = UdemyModule;
-},{"./recipe-book.component":378,"./recipes/recipe-detail/recipe-detail.component":379,"./recipes/recipe-edit/recipe-edit.component":380,"./recipes/recipe-list/recipe-item.component":381,"./recipes/recipe-list/recipe-list.component":382,"./recipes/recipes-start.component":385,"./recipes/recipes.component":386,"./shared/dropdown.directive":388,"./shared/header.component":389,"./shopping/shopping-list-add.component":390,"./shopping/shopping-list.component":391,"./shopping/shopping-list.service":392,"@angular/core":3,"@angular/forms":4,"@angular/http":5,"@angular/platform-browser":7,"@angular/router":8}],394:[function(require,module,exports){
+},{"./recipe-book.component":389,"./recipes/recipe-detail/recipe-detail.component":390,"./recipes/recipe-edit/recipe-edit.component":391,"./recipes/recipe-list/recipe-item.component":392,"./recipes/recipe-list/recipe-list.component":393,"./recipes/recipes-start.component":396,"./recipes/recipes.component":397,"./shared/dropdown.directive":399,"./shared/header.component":400,"./shopping/shopping-list-add.component":401,"./shopping/shopping-list.component":402,"./shopping/shopping-list.service":403,"@angular/core":3,"@angular/forms":4,"@angular/http":5,"@angular/platform-browser":7,"@angular/router":8}],405:[function(require,module,exports){
 "use strict";
 var recipes_component_1 = require('./recipes/recipes.component');
 var shopping_list_component_1 = require('./shopping/shopping-list.component');
@@ -83067,7 +83387,7 @@ exports.UDEMY_ROUTES = [
     { path: 'recipes', component: recipes_component_1.RecipesComponent, children: recipes_routing_1.RECIPE_ROUTES },
     { path: 'shopping-list', component: shopping_list_component_1.ShoppingListComponent }
 ];
-},{"./recipes/recipes.component":386,"./recipes/recipes.routing":387,"./shopping/shopping-list.component":391}]},{},[376])
+},{"./recipes/recipes.component":397,"./recipes/recipes.routing":398,"./shopping/shopping-list.component":402}]},{},[387])
 
 
 //# sourceMappingURL=bundle.js.map
