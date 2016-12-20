@@ -1,0 +1,76 @@
+<div class="container">
+    <h1 class="text-center">Please provide your information to sign up.</h1><br>
+    <div class="alert alert-success" *ngIf="isSaved">
+        <strong>Success!</strong> Your information has been saved! <a [routerLink]="['../myinfo']">My info page</a> is now available!
+    </div>
+    <form class="form-horizontal" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+        <div class="form-group has-feedback" [ngClass]="{'has-success': signUpForm.controls['firstName'].valid, 'has-error': signUpForm.controls['firstName'].touched && !signUpForm.controls['firstName'].valid}">
+            <label class="col-sm-2 control-label">First name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="First name" formControlName="firstName">
+                <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="signUpForm.controls['firstName'].valid" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove form-control-feedback" *ngIf="signUpForm.controls['firstName'].touched && !signUpForm.controls['firstName'].valid"
+                    aria-hidden="true"></span>
+            </div>
+            <span class="help-block col-sm-12 text-center" *ngIf="!signUpForm.controls['firstName'].valid && signUpForm.controls['firstName'].touched">
+                First name field is required
+            </span>
+        </div>
+        <div class="form-group has-feedback" [ngClass]="{'has-success': signUpForm.controls['lastName'].valid, 'has-error': signUpForm.controls['lastName'].touched && !signUpForm.controls['lastName'].valid}">
+            <label class="col-sm-2 control-label">Last name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Last name" formControlName="lastName">
+                <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="signUpForm.controls['lastName'].valid" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove form-control-feedback" *ngIf="!signUpForm.controls['lastName'].valid && signUpForm.controls['lastName'].touched"
+                    aria-hidden="true"></span>
+            </div>
+            <span class="help-block col-sm-12 text-center" *ngIf="!signUpForm.controls['lastName'].valid && signUpForm.controls['lastName'].touched">
+                Last name field is required
+            </span>
+        </div>
+        <div class="form-group has-feedback" [ngClass]="{'has-success': signUpForm.controls['email'].valid, 'has-error': signUpForm.controls['email'].touched && !signUpForm.controls['email'].valid}">
+            <label class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" placeholder="Email" formControlName="email">
+                <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="signUpForm.controls['email'].valid" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove form-control-feedback" *ngIf="!signUpForm.controls['email'].valid && signUpForm.controls['email'].touched"
+                    aria-hidden="true"></span>
+            </div>
+            <span class="help-block col-sm-12 text-center" *ngIf="!signUpForm.controls['email'].valid && signUpForm.controls['email'].touched">
+                Must be a valid email address: handle@domain format
+            </span>
+        </div>
+        <div class="form-group has-feedback" [ngClass]="{'has-success': signUpForm.controls['phone'].valid, 'has-error': signUpForm.controls['phone'].touched && !signUpForm.controls['phone'].valid}">
+            <label class="col-sm-2 control-label">Phone</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Phone ###-###-####" formControlName="phone">
+                <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="signUpForm.controls['phone'].valid" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove form-control-feedback" *ngIf="!signUpForm.controls['phone'].valid && signUpForm.controls['phone'].touched"
+                    aria-hidden="true"></span>
+            </div>
+            <span class="help-block col-sm-12 text-center" *ngIf="!signUpForm.controls['phone'].valid && signUpForm.controls['phone'].touched">
+                Phone must be in the format ###-###-####.
+            </span>
+        </div>
+        <div class="form-group has-feedback" [ngClass]="{'has-success': signUpForm.controls['favoriteDishNumber'].valid, 'has-error': signUpForm.controls['favoriteDishNumber'].touched && !signUpForm.controls['favoriteDishNumber'].valid}">
+            <label class="col-sm-2 control-label">Favorite dish number</label>
+            <div class="col-md-6 col-sm-10">
+                <input type="text" class="form-control" placeholder="Favorite dish number" formControlName="favoriteDishNumber">
+                <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="signUpForm.controls['favoriteDishNumber'].valid" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove form-control-feedback" *ngIf="!signUpForm.controls['favoriteDishNumber'].valid && signUpForm.controls['favoriteDishNumber'].touched"
+                    aria-hidden="true"></span>
+            </div>
+            <span class="help-block col-sm-12 text-center" *ngIf="!signUpForm.controls['favoriteDishNumber'].valid && signUpForm.controls['favoriteDishNumber'].touched">
+				No such menu number exists
+            </span>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10 col-md-1">
+                <button type="submit" [disabled]="!signUpForm.valid" class="btn btn-default" [ngClass]="{'btn-success': signUpForm.valid, 'btn-danger': !signUpForm.valid}">Sign Up</button>
+            </div>
+            <div class="col-md-9">
+                <fa-assignment5-menu-item *ngIf="favoriteItem" [item]="favoriteItem"></fa-assignment5-menu-item>
+            </div>
+        </div>
+    </form>
+</div>
