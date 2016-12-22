@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -8,7 +8,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { Assignment3Component } from './assignment3.component';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, HttpModule],
+  imports: [CommonModule, FormsModule, HttpModule],
   declarations: [Assignment3Component, FoundItemsComponent, LoaderComponent],
   bootstrap: [Assignment3Component],
   exports: [Assignment3Component]

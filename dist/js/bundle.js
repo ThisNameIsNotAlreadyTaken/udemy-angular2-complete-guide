@@ -81693,7 +81693,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
+var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
 var assignment1_component_1 = require('./assignment1.component');
 var Assignment1Module = (function () {
@@ -81701,7 +81701,7 @@ var Assignment1Module = (function () {
     }
     Assignment1Module = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule],
+            imports: [common_1.CommonModule, forms_1.FormsModule],
             declarations: [assignment1_component_1.Assignment1Component],
             bootstrap: [assignment1_component_1.Assignment1Component],
             exports: [assignment1_component_1.Assignment1Component]
@@ -81711,7 +81711,7 @@ var Assignment1Module = (function () {
     return Assignment1Module;
 }());
 exports.Assignment1Module = Assignment1Module;
-},{"./assignment1.component":352,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7}],354:[function(require,module,exports){
+},{"./assignment1.component":352,"@angular/common":1,"@angular/core":3,"@angular/forms":4}],354:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -81752,8 +81752,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var forms_1 = require('@angular/forms');
+var common_1 = require('@angular/common');
 var assignment2_component_1 = require('./assignment2.component');
 var toBuy_component_1 = require('./toBuy/toBuy.component');
 var bought_component_1 = require('./bought/bought.component');
@@ -81762,7 +81761,7 @@ var Assignment2Module = (function () {
     }
     Assignment2Module = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule],
+            imports: [common_1.CommonModule],
             declarations: [assignment2_component_1.Assignment2Component, toBuy_component_1.ToBuyComponent, bought_component_1.BoughtComponent],
             bootstrap: [assignment2_component_1.Assignment2Component],
             exports: [assignment2_component_1.Assignment2Component]
@@ -81772,7 +81771,7 @@ var Assignment2Module = (function () {
     return Assignment2Module;
 }());
 exports.Assignment2Module = Assignment2Module;
-},{"./assignment2.component":354,"./bought/bought.component":356,"./toBuy/toBuy.component":358,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7}],356:[function(require,module,exports){
+},{"./assignment2.component":354,"./bought/bought.component":356,"./toBuy/toBuy.component":358,"@angular/common":1,"@angular/core":3}],356:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -81924,7 +81923,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
+var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var found_items_component_1 = require('./found-items/found-items.component');
@@ -81935,7 +81934,7 @@ var Assignment3Module = (function () {
     }
     Assignment3Module = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule],
+            imports: [common_1.CommonModule, forms_1.FormsModule, http_1.HttpModule],
             declarations: [assignment3_component_1.Assignment3Component, found_items_component_1.FoundItemsComponent, loader_component_1.LoaderComponent],
             bootstrap: [assignment3_component_1.Assignment3Component],
             exports: [assignment3_component_1.Assignment3Component]
@@ -81945,7 +81944,7 @@ var Assignment3Module = (function () {
     return Assignment3Module;
 }());
 exports.Assignment3Module = Assignment3Module;
-},{"./assignment3.component":359,"./found-items/found-items.component":361,"./loader/loader.component":362,"@angular/core":3,"@angular/forms":4,"@angular/http":5,"@angular/platform-browser":7}],361:[function(require,module,exports){
+},{"./assignment3.component":359,"./found-items/found-items.component":361,"./loader/loader.component":362,"@angular/common":1,"@angular/core":3,"@angular/forms":4,"@angular/http":5}],361:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -82080,8 +82079,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var forms_1 = require('@angular/forms');
+var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var spinner_component_1 = require('./spinner/spinner.component');
@@ -82099,7 +82097,7 @@ var Assignment4Module = (function () {
     }
     Assignment4Module = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, router_1.RouterModule, http_1.HttpModule],
+            imports: [common_1.CommonModule, router_1.RouterModule, http_1.HttpModule],
             declarations: [assignment4_component_1.Assignment4Component, spinner_component_1.SpinnerComponent, header_component_1.HeaderComponent, categories_component_1.CategoriesComponent, categories_list_component_1.CategoriesListComponent, items_list_component_1.ItemsListComponent, start_component_1.StartComponent],
             bootstrap: [assignment4_component_1.Assignment4Component],
             exports: [assignment4_component_1.Assignment4Component],
@@ -82110,7 +82108,7 @@ var Assignment4Module = (function () {
     return Assignment4Module;
 }());
 exports.Assignment4Module = Assignment4Module;
-},{"./assignment4.component":364,"./header/header.component":367,"./menu/categories-list.component":368,"./menu/categories.component":369,"./menu/items-list.component":371,"./service/categories.resolve":372,"./service/data.service":373,"./service/items.resolve":374,"./spinner/spinner.component":375,"./start/start.component":376,"@angular/core":3,"@angular/forms":4,"@angular/http":5,"@angular/platform-browser":7,"@angular/router":8}],366:[function(require,module,exports){
+},{"./assignment4.component":364,"./header/header.component":367,"./menu/categories-list.component":368,"./menu/categories.component":369,"./menu/items-list.component":371,"./service/categories.resolve":372,"./service/data.service":373,"./service/items.resolve":374,"./spinner/spinner.component":375,"./start/start.component":376,"@angular/common":1,"@angular/core":3,"@angular/http":5,"@angular/router":8}],366:[function(require,module,exports){
 "use strict";
 var start_component_1 = require("./start/start.component");
 var categories_component_1 = require("./menu/categories.component");
@@ -82456,10 +82454,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var forms_1 = require('@angular/forms');
+var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
-var forms_2 = require('@angular/forms');
+var forms_1 = require('@angular/forms');
 var header_component_1 = require('./header/header.component');
 var myinfo_component_1 = require('./myinfo/myinfo.component');
 var signup_component_1 = require('./signup/signup.component');
@@ -82476,7 +82473,7 @@ var Assignment5Module = (function () {
     }
     Assignment5Module = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, router_1.RouterModule, forms_2.ReactiveFormsModule],
+            imports: [common_1.CommonModule, router_1.RouterModule, forms_1.ReactiveFormsModule],
             declarations: [assignment5_component_1.Assignment5Component, header_component_1.HeaderComponent, myinfo_component_1.MyInfoComponent, signup_component_1.SignUpComponent, start_component_1.StartComponent, menu_item_component_1.MenuItemComponent, loading_component_1.LoadingComponent],
             bootstrap: [assignment5_component_1.Assignment5Component],
             exports: [assignment5_component_1.Assignment5Component],
@@ -82487,7 +82484,7 @@ var Assignment5Module = (function () {
     return Assignment5Module;
 }());
 exports.Assignment5Module = Assignment5Module;
-},{"./assignment5.component":377,"./header/header.component":380,"./loading/loading.component":381,"./menu-item/menu-item.component":382,"./myinfo/myinfo.component":383,"./service/items.resolve":384,"./service/menu.service":385,"./service/userinfo.resolve":386,"./service/userinfo.service":387,"./signup/signup.component":388,"./start/start.component":389,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7,"@angular/router":8}],379:[function(require,module,exports){
+},{"./assignment5.component":377,"./header/header.component":380,"./loading/loading.component":381,"./menu-item/menu-item.component":382,"./myinfo/myinfo.component":383,"./service/items.resolve":384,"./service/menu.service":385,"./service/userinfo.resolve":386,"./service/userinfo.service":387,"./signup/signup.component":388,"./start/start.component":389,"@angular/common":1,"@angular/core":3,"@angular/forms":4,"@angular/router":8}],379:[function(require,module,exports){
 "use strict";
 var start_component_1 = require("./start/start.component");
 var myinfo_component_1 = require("./myinfo/myinfo.component");
@@ -82900,8 +82897,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var forms_1 = require('@angular/forms');
+var common_1 = require('@angular/common');
 var router_1 = require("@angular/router");
 var coursera_component_1 = require('./coursera.component');
 var coursera_menu_component_1 = require('./coursera-menu.component');
@@ -82915,7 +82911,7 @@ var CourseraModule = (function () {
     }
     CourseraModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, router_1.RouterModule, assignment1_module_1.Assignment1Module, assignment2_module_1.Assignment2Module, assignment3_module_1.Assignment3Module, assignment4_module_1.Assignment4Module, assignment5_module_1.Assignment5Module],
+            imports: [common_1.CommonModule, router_1.RouterModule, assignment1_module_1.Assignment1Module, assignment2_module_1.Assignment2Module, assignment3_module_1.Assignment3Module, assignment4_module_1.Assignment4Module, assignment5_module_1.Assignment5Module],
             declarations: [coursera_component_1.CourseraComponent, coursera_menu_component_1.CourseraMenuComponent],
             bootstrap: [coursera_component_1.CourseraComponent],
             exports: [coursera_component_1.CourseraComponent]
@@ -82925,7 +82921,7 @@ var CourseraModule = (function () {
     return CourseraModule;
 }());
 exports.CourseraModule = CourseraModule;
-},{"./assignment1/assignment1.module":353,"./assignment2/assignment2.module":355,"./assignment3/assignment3.module":360,"./assignment4/assignment4.module":365,"./assignment5/assignment5.module":378,"./coursera-menu.component":390,"./coursera.component":391,"@angular/core":3,"@angular/forms":4,"@angular/platform-browser":7,"@angular/router":8}],393:[function(require,module,exports){
+},{"./assignment1/assignment1.module":353,"./assignment2/assignment2.module":355,"./assignment3/assignment3.module":360,"./assignment4/assignment4.module":365,"./assignment5/assignment5.module":378,"./coursera-menu.component":390,"./coursera.component":391,"@angular/common":1,"@angular/core":3,"@angular/router":8}],393:[function(require,module,exports){
 "use strict";
 var assignment1_component_1 = require('./assignment1/assignment1.component');
 var assignment2_component_1 = require('./assignment2/assignment2.component');
@@ -83697,7 +83693,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
+var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
 var router_1 = require("@angular/router");
 var forms_2 = require('@angular/forms');
@@ -83719,7 +83715,7 @@ var UdemyModule = (function () {
     }
     UdemyModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, router_1.RouterModule, forms_2.ReactiveFormsModule, http_1.HttpModule],
+            imports: [common_1.CommonModule, forms_1.FormsModule, router_1.RouterModule, forms_2.ReactiveFormsModule, http_1.HttpModule],
             declarations: [
                 recipe_book_component_1.RecipeBookAppComponent,
                 header_component_1.HeaderComponent,
@@ -83741,7 +83737,7 @@ var UdemyModule = (function () {
     return UdemyModule;
 }());
 exports.UdemyModule = UdemyModule;
-},{"./recipe-book.component":400,"./recipes/recipe-detail/recipe-detail.component":401,"./recipes/recipe-edit/recipe-edit.component":402,"./recipes/recipe-list/recipe-item.component":403,"./recipes/recipe-list/recipe-list.component":404,"./recipes/recipes-start.component":407,"./recipes/recipes.component":408,"./shared/dropdown.directive":410,"./shared/header.component":411,"./shopping/shopping-list-add.component":412,"./shopping/shopping-list.component":413,"./shopping/shopping-list.service":414,"@angular/core":3,"@angular/forms":4,"@angular/http":5,"@angular/platform-browser":7,"@angular/router":8}],416:[function(require,module,exports){
+},{"./recipe-book.component":400,"./recipes/recipe-detail/recipe-detail.component":401,"./recipes/recipe-edit/recipe-edit.component":402,"./recipes/recipe-list/recipe-item.component":403,"./recipes/recipe-list/recipe-list.component":404,"./recipes/recipes-start.component":407,"./recipes/recipes.component":408,"./shared/dropdown.directive":410,"./shared/header.component":411,"./shopping/shopping-list-add.component":412,"./shopping/shopping-list.component":413,"./shopping/shopping-list.service":414,"@angular/common":1,"@angular/core":3,"@angular/forms":4,"@angular/http":5,"@angular/router":8}],416:[function(require,module,exports){
 "use strict";
 var recipes_component_1 = require('./recipes/recipes.component');
 var shopping_list_component_1 = require('./shopping/shopping-list.component');

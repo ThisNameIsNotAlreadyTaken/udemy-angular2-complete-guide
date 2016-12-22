@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { RouterModule  } from "@angular/router";
 
 import { CourseraComponent } from './coursera.component';
@@ -13,7 +12,7 @@ import { Assignment4Module } from './assignment4/assignment4.module';
 import { Assignment5Module } from './assignment5/assignment5.module';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, RouterModule, Assignment1Module, Assignment2Module, Assignment3Module, Assignment4Module, Assignment5Module],
+  imports: [CommonModule, RouterModule, Assignment1Module, Assignment2Module, Assignment3Module, Assignment4Module, Assignment5Module],
   declarations: [CourseraComponent, CourseraMenuComponent],
   bootstrap: [CourseraComponent],
   exports: [CourseraComponent]

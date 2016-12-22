@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -18,7 +17,7 @@ import { UserInfoResolve } from './service/userinfo.resolve';
 import { ItemsResolve } from './service/items.resolve';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   declarations: [Assignment5Component, HeaderComponent, MyInfoComponent, SignUpComponent, StartComponent, MenuItemComponent, LoadingComponent],
   bootstrap: [Assignment5Component],
   exports: [Assignment5Component],

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule  } from "@angular/router";
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,7 +23,7 @@ import { DropdownDirective } from "./shared/dropdown.directive";
 import { ShoppingListService } from './shopping/shopping-list.service';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, RouterModule, ReactiveFormsModule, HttpModule],
+  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule, HttpModule],
   declarations: [
     RecipeBookAppComponent,
     HeaderComponent,

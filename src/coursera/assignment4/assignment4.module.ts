@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
@@ -18,7 +17,7 @@ import { ItemsResolve } from './service/items.resolve';
 import { Assignment4Component } from './assignment4.component';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, RouterModule, HttpModule],
+  imports: [CommonModule, RouterModule, HttpModule],
   declarations: [Assignment4Component, SpinnerComponent, HeaderComponent, CategoriesComponent, CategoriesListComponent, ItemsListComponent, StartComponent],
   bootstrap: [Assignment4Component],
   exports: [Assignment4Component],
