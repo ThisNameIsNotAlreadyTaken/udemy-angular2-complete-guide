@@ -11,14 +11,18 @@
             "dom"
         ],
         "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true
+        "suppressImplicitAnyIndexErrors": true,
+        "types": []
     },
     "files": [
         "src/main.module.ts",
-        "src/main.ts"
+        "src/main.aot.ts"
     ],
     "angularCompilerOptions": {
         "genDir": "aot",
         "skipMetadataEmit": true
-    }
+    },
+    "exclude": [
+        "./node_module/@types/core-js"
+    ]
 }
