@@ -19,12 +19,14 @@ const gzip = require('gulp-gzip');
 const watchify = require('watchify');
 const ng2TemplateParser = require('gulp-inline-ng2-template/parser');
 
+const devTsConfig = require('./tsconfig.json');
+
 gulp.task("clean", function () {
     return gulp.src(['./dist/*'], { read: false }).pipe(filter(['**', '!dist/web.config'])).pipe(clean({ force: true }));
 });
 
 gulp.task("html:copy", function () {
-    return gulp.src('./src/*.html').pipe(rename({ dirname: '' })).pipe(gulp.dest("./dist"));
+    return gulp.src('./src/index.html').pipe(rename({ dirname: '' })).pipe(gulp.dest("./dist"));
 });
 
 gulp.task("css:copy", function () {
@@ -76,11 +78,11 @@ function bundleJs(bundle) {
 }
 
 gulp.task('browserify:compile', function () {
-    return bundleJs(browserify(browserifyOptions).plugin(tsify, { noImplicitAny: true }).transform(ng2TemplateParserProvider).bundle());
+    return bundleJs(browserify(browserifyOptions).plugin(tsify, devTsConfig.compilerOptions).transform(ng2TemplateParserProvider).bundle());
 });
 
 gulp.task('browserify:watch', function () {
-    const watchObject = browserify(browserifyOptions).plugin(tsify, { noImplicitAny: true }).transform(ng2TemplateParserProvider).plugin(watchify);
+    const watchObject = browserify(browserifyOptions).plugin(tsify, devTsConfig.compilerOptions).transform(ng2TemplateParserProvider).plugin(watchify);
 
     function update() {
         return bundleJs(watchObject.bundle());
