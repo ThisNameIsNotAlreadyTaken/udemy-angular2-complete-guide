@@ -9,5 +9,10 @@
         "emitDecoratorMetadata": true,
         "removeComments": false,
         "noImplicitAny": true
-    }
+    },
+    "exclude": [
+        "./node_modules",
+        "./aot",
+        "./src/main.aot.ts"
+    ]
 }

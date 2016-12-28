@@ -23,6 +23,7 @@
         "skipMetadataEmit": true
     },
     "exclude": [
-        "./node_module/@types/core-js"
+        "./node_module/@types/core-js",
+        "./src/main.ts"
     ]
 }
