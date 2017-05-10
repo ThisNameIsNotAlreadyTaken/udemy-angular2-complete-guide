@@ -6,10 +6,7 @@
         "sourceMap": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "lib": [
-            "es2015",
-            "dom"
-        ],
+        "lib": ["es2016", "es2015", "es2015.iterable", "dom"],
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         "types": []
