@@ -1,5 +1,4 @@
-<h1 class="text-center" *ngIf="!info">Not Signed Up Yet. <a [routerLink]="['../signup']">Sign up Now!</a></h1><br>
-<div *ngIf="info">
+<div *ngIf="info; else notSignedUpPart">
     <div class="col-md-offset-1 col-md-8 col-lg-offset-2 col-lg-6">
         <div>
             <div class="col-sm-12">
@@ -15,3 +14,7 @@
         <fa-assignment5-menu-item [item]="info.favoriteItem"></fa-assignment5-menu-item>
     </div>
 </div>
+
+<ng-template #notSignedUpPart>
+    <h1 class="text-center">Not Signed Up Yet. <a [routerLink]="['../signup']">Sign up Now!</a></h1><br>
+</ng-template>

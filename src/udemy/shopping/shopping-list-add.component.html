@@ -13,12 +13,15 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <button class="btn btn-success" type="submit" *ngIf="isAdd" [disabled]="!f.valid">Add</button>
-                    <button class="btn btn-success" type="submit" *ngIf="!isAdd" [disabled]="!f.valid">Save</button>
-                    <button class="btn btn-danger" type="button" *ngIf="!isAdd" (click)="onDelete()">Delete Item</button>
-                    <button class="btn btn-primary" type="button" *ngIf="!isAdd" (click)="onClear()">Clear</button>
+                    <button class="btn btn-success" type="submit" *ngIf="isAdd; else notAddPart" [disabled]="!f.valid">Add</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<ng-template #notAddPart>
+    <button class="btn btn-success" type="submit" [disabled]="!f.valid">Save</button>
+    <button class="btn btn-danger" type="button" (click)="onDelete()">Delete Item</button>
+    <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
+</ng-template>

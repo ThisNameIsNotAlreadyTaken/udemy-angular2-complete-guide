@@ -49,7 +49,7 @@ export class SignUpComponent {
         this.signUpForm = this.formBuilder.group({
             firstName: [firstName, Validators.required],
             lastName: [lastName, Validators.required],
-            email: [email, [Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
+            email: [email, Validators.email],
             phone: [phone, [Validators.required, Validators.pattern("([0-9]{3})-([0-9]{3})-([0-9]{4})")]],
             favoriteDishNumber: [favoriteDishNumber, [Validators.required, this.existingItemValidator.bind(this)]]
         });
